@@ -1,0 +1,24 @@
+// player's normal start position
+PLAYER_PED player = (75.5, 127.5, 255.0) 13 0
+//PARKED_CAR_DATA player_car = (50.5, 46.5, 1.0) 0 0 GT24640
+
+// two basic boolean values
+SAVED_COUNTER true = 1
+SAVED_COUNTER false = 0
+
+DECLARE_POLICELEVEL (4)
+
+////////////////////////////////////////////////////////////////
+//                                                            //
+//  BEGIN MAIN SCRIPT! and stuff...                           //
+//                                                            //
+////////////////////////////////////////////////////////////////
+
+LEVELSTART
+
+SET_AMBIENT_LEVEL (0.7, 0)
+
+// example command
+//MAKE_ALL_CHARS_MUGGERS (on)
+
+LEVELEND
