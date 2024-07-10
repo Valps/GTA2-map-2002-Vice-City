@@ -1,6 +1,30 @@
 // player's normal start position
-PLAYER_PED player = (75.5, 127.5, 255.0) 13 0
-//PARKED_CAR_DATA player_car = (50.5, 46.5, 1.0) 0 0 GT24640
+PLAYER_PED p1 = (94.5, 33.5, 255.0) 13 180
+PARKED_CAR_DATA downtown_ambulance = (92.5, 35.0) -1 185 MEDICAR
+PARKED_CAR_DATA downtown_firetruck = (98.2, 42.0, 2.0) -1 85 FIRETRUK
+PARKED_CAR_DATA vice_point_copcar = (213.5, 172.3) -1 355 COPCAR
+PARKED_CAR_DATA havana_ice_truck = (98.0, 173.5) -1 90 ICECREAM
+
+PARKED_CAR_DATA kauf_cab1 = (69.9, 75.3, 2.0) -1 215 STYPECAB
+PARKED_CAR_DATA kauf_cab2 = (71.3, 75.5, 2.0) -1 265 STYPECAB
+
+RADIO_STATION kgbh = STATION_RUSSIAN (62.5, 169.5)
+RADIO_STATION lofi = STATION_INDUSTRIAL (110.5, 108.5)
+
+CHAR_DATA vice_squad
+CAR_DATA car_vice_squad
+COUNTER in_action = 0
+COUNTER done = 0
+COUNTER colour_changed = 0
+
+COUNTER magic_address
+COUNTER magic_number = 1906784
+
+COUNTER wanted_pointer = 522  // 1620 = 654h
+COUNTER wanted_address
+COUNTER wanted_level
+
+COUNTER loop = 1
 
 // two basic boolean values
 SAVED_COUNTER true = 1
@@ -14,11 +38,95 @@ DECLARE_POLICELEVEL (4)
 //                                                            //
 ////////////////////////////////////////////////////////////////
 
+SET_GANG_INFO (haitigang,18, PISTOL, MACHINE_GUN, MACHINE_GUN, 4, 128.5 ,128.5 , 2.0, 1, PICKUP,-1)
+SET_GANG_INFO (havanagang,28, PISTOL, MACHINE_GUN, MACHINE_GUN, 7, 128.5 ,128.5 , 2.0, 1, BUICK,-1)
+
+SET_GANG_KILL_REACTION (haitigang, havanagang, 10)
+SET_GANG_KILL_REACTION (havanagang, haitigang, 10)
+
 LEVELSTART
 
 SET_AMBIENT_LEVEL (0.7, 0)
 
+///////SET magic_address = ( p1 + magic_number )
+//SET wanted_address = ( p1 + wanted_pointer )  // ( magic_address + wanted_pointer )
+
 // example command
 //MAKE_ALL_CHARS_MUGGERS (on)
+
+WHILE_EXEC ( loop = 1 )
+
+   DO_NOWT
+
+   //CHANGE_GANG_CHAR_RESPECT(wanted_address, wanted_level,104)     // Wanted level (0 to 6)
+
+   IF ( CHECK_HEADS_GREATER (p1, 2) )                                               // wanted_level > 2999
+      IF ( in_action = 0 )
+         SET in_action = 1
+         vice_squad = CREATE_CHAR (96.4, 184.6) 18 135 ARMY END
+         SET_CHAR_THREAT_SEARCH (vice_squad, AREA )
+         SET_CHAR_THREAT_REACTION (vice_squad, REACT_AS_NORMAL )
+         SET_CHAR_GRAPHIC_TYPE (vice_squad, DUMMY_GRAPHIC, 18)
+         GIVE_WEAPON (vice_squad, SILENCED_MACHINE_GUN)
+         SET_CHAR_SHOOTING_SKILL (vice_squad, CRACK_SHOT)
+         SET_CHAR_BRAVERY_LEVEL (vice_squad, LOONY )
+         SET_CHAR_DRIVE_AGGRESSION (vice_squad, ON )
+         //SET_CHAR_THREAT_REACTION (vice_squad, REACT_AS_NORMAL)
+         SET_FAVOURITE_MODEL (vice_squad, ZCX5)
+         SET_CHAR_OBJECTIVE (vice_squad, KILL_CHAR_ANY_MEANS, p1)
+         ADD_GROUP_TO_CHARACTER (vice_squad, 1)
+         SET colour_changed = 0
+      ENDIF
+   ENDIF
+
+   IF ( in_action = 1 )
+
+      IF ( NOT ( CHECK_HEADS_GREATER (p1, 2) ) )         // player escaped                                                // wanted_level < 3000
+         SET in_action = 0
+         SET done = 1
+         IF ( NOT ( HAS_CHARACTER_DIED (vice_squad) ) )
+            SET_CHAR_OBJECTIVE (vice_squad, NO_OBJ)
+         ENDIF
+      ENDIF
+
+      IF ( ( HAS_CHARACTER_DIED (p1) ) OR ( HAS_CHAR_BEEN_ARRESTED (p1) ) )    // player died / arrested
+         SET in_action = 0
+         SET done = 1
+         IF ( NOT ( HAS_CHARACTER_DIED (vice_squad) ) )
+            SET_CHAR_OBJECTIVE (vice_squad, NO_OBJ)
+         ENDIF
+      ENDIF
+
+      IF ( ( HAS_CHARACTER_DIED (vice_squad) ) AND ( done = 0 ) )       // squad died
+         SET done = 1
+      ENDIF
+
+
+      IF ( colour_changed = 0 )
+      IF ( IS_CHARACTER_IN_ANY_CAR (vice_squad) )
+         STORE_CAR_CHARACTER_IS_IN (vice_squad, car_vice_squad)
+         IF (NOT (CHECK_CAR_REMAP(car_vice_squad, 1)) )
+            CHANGE_CAR_REMAP (car_vice_squad, 1)
+            SET colour_changed = 1
+         ENDIF
+      ENDIF
+      ENDIF
+
+   ENDIF
+
+   IF ( done = 1 )
+      IF ( NOT ( IS_ITEM_ONSCREEN (vice_squad) ) )
+         DELETE_ITEM ( vice_squad )
+         SET done = 0
+         SET in_action = 0
+
+         IF ( colour_changed = 1 )
+            DELETE_ITEM ( car_vice_squad )
+         ENDIF
+      ENDIF
+   ENDIF
+
+ENDWHILE
+
 
 LEVELEND
