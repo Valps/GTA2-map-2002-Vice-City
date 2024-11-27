@@ -1,5 +1,6 @@
 // player's normal start position
 PLAYER_PED p1 = (94.5, 33.5, 255.0) 13 180
+PLAYER_PED p2 = (94.5, 43.5, 255.0) 8 0
 PARKED_CAR_DATA downtown_ambulance = (92.5, 35.0) -1 185 MEDICAR
 PARKED_CAR_DATA downtown_firetruck = (98.2, 42.0, 2.0) -1 85 FIRETRUK
 PARKED_CAR_DATA vice_point_copcar = (213.5, 172.3) -1 355 COPCAR
@@ -11,11 +12,14 @@ PARKED_CAR_DATA kauf_cab2 = (71.3, 75.5, 2.0) -1 265 STYPECAB
 RADIO_STATION kgbh = STATION_RUSSIAN (62.5, 169.5)
 RADIO_STATION lofi = STATION_INDUSTRIAL (110.5, 108.5)
 
+// Vice Squad
+
 CHAR_DATA vice_squad
 CAR_DATA car_vice_squad
 COUNTER in_action = 0
 COUNTER done = 0
 COUNTER colour_changed = 0
+COUNTER set_squad_speed = 0
 
 COUNTER magic_address
 COUNTER magic_number = 1906784
@@ -23,6 +27,70 @@ COUNTER magic_number = 1906784
 COUNTER wanted_pointer = 522  // 1620 = 654h
 COUNTER wanted_address
 COUNTER wanted_level
+
+//  Objects
+
+OBJ_DATA beam1 = (185.2, 161.2, 2.0) 0 TOWER
+OBJ_DATA beam2 = (185.2, 155.8, 2.0) 0 TOWER
+OBJ_DATA beam3 = (179.8, 161.2, 2.0) 0 TOWER
+OBJ_DATA beam4 = (179.8, 155.8, 2.0) 0 TOWER
+
+OBJ_DATA chimney1 = (154.76, 162.2, 2.0) 0 TOWER
+OBJ_DATA chimney2_1 = (142.76, 157.76) 0 TOWER
+OBJ_DATA chimney2_2 = (142.76, 158.24, 2.0) 0 TOWER
+
+//  Tokens / Hidden Packages
+
+OBJ_DATA gta2_token_1 = (29.5, 14.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_2 = (105.5, 21.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_3 = (93.5, 20.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_4 = (69.5, 37.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_5 = (73.5, 73.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_6 = (35.5, 119.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_7 = (135.5, 155.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_8 = (162.5, 156.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_9 = (135.5, 183.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_10 = (163.0, 183.0) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_11 = (80.5, 60.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_12 = (38.5, 86.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_13 = (75.5, 148.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_14 = (98.5, 8.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_15 = (65.5, 163.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_16 = (94.5, 193.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_17 = (51.0, 246.5, 3.0) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_18 = (94.5, 155.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_19 = (70.5, 110.5, 2.0) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_20 = (56.5, 116.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_21 = (8.5, 161.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_22 = (79.5, 56.5) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_23 = (84.6, 206.6) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_24 = (86.1, 206.6) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_25 = (224.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_26 = (225.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_27 = (226.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_28 = (227.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_29 = (228.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_30 = (229.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_31 = (230.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_32 = (231.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_33 = (232.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_34 = (233.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_35 = (234.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_36 = (235.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_37 = (236.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_38 = (237.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_39 = (238.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_40 = (239.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_41 = (240.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_42 = (241.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_43 = (242.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_44 = (243.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_45 = (244.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_46 = (245.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_47 = (246.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_48 = (247.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_49 = (248.9, 86.3) 0 BONUS_TOKEN
+OBJ_DATA gta2_token_50 = (249.9, 86.3) 0 BONUS_TOKEN
 
 COUNTER loop = 1
 
@@ -45,6 +113,8 @@ SET_GANG_KILL_REACTION (haitigang, havanagang, 10)
 SET_GANG_KILL_REACTION (havanagang, haitigang, 10)
 
 LEVELSTART
+
+SET_CHAR_GRAPHIC_TYPE (p1, DUMMY_GRAPHIC, 19)
 
 SET_AMBIENT_LEVEL (0.7, 0)
 
@@ -76,6 +146,7 @@ WHILE_EXEC ( loop = 1 )
          SET_CHAR_OBJECTIVE (vice_squad, KILL_CHAR_ANY_MEANS, p1)
          ADD_GROUP_TO_CHARACTER (vice_squad, 1)
          SET colour_changed = 0
+         SET_CHAR_GRAPHIC_TYPE (vice_squad, DUMMY_GRAPHIC, 35)
       ENDIF
    ENDIF
 
@@ -110,6 +181,25 @@ WHILE_EXEC ( loop = 1 )
             SET colour_changed = 1
          ENDIF
       ENDIF
+      ENDIF
+
+
+
+      IF ( ( IS_ITEM_ONSCREEN ( vice_squad ) ) AND ( set_squad_speed = 0 ) )
+
+         SET set_squad_speed = 1
+
+         IF ( IS_CHARACTER_IN_ANY_CAR ( p1 ) )
+            SET_CHAR_MAX_DRIVESPEED (vice_squad, 0.40)
+         ELSE
+            SET_CHAR_MAX_DRIVESPEED (vice_squad, 0.00)
+         ENDIF
+
+      ENDIF
+
+      IF ( ( NOT ( IS_ITEM_ONSCREEN ( vice_squad ) ) ) AND ( set_squad_speed = 1 ) )
+         SET set_squad_speed = 0
+         SET_CHAR_MAX_DRIVESPEED (vice_squad, 0.40)
       ENDIF
 
    ENDIF
