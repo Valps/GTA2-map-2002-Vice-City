@@ -164,7 +164,7 @@ WHILE_EXEC ( loop = 1 )
          SET in_action = 0
          SET done = 1
          IF ( NOT ( HAS_CHARACTER_DIED (vice_squad) ) )
-            SET_CHAR_OBJECTIVE (vice_squad, NO_OBJ)
+            SET_CHAR_OBJECTIVE (vice_squad, NO_OBJ)                //  MAKE_CHAR_DO_NOTHING (vice_squad)
          ENDIF
       ENDIF
 
